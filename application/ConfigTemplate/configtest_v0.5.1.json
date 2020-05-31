@@ -1,0 +1,49 @@
+{
+	"name": "ConnecSenS_test",
+	"verbose": true,
+	"led": true,
+	"watchdog": true,
+	
+	"network": {
+		"type":   "LoRaWAN",
+		"DevEUI": "0203040506070809",
+		"AppEUI": "A78F1729918331B4",
+		"AppKey": "D7F66C4B228A7DF609000006A6579FC1",
+		"period": 60
+	},
+	
+	"numberOfSensors": 4,
+	"sensors": [{
+		"name": "Lumi",
+		"type": "OPT3001",
+		"period": 30,
+		"specific": {}
+	}, {
+		"name": "Press",
+		"type": "LPS25",
+		"period": 30,
+		"specific": {}
+	}, {
+		"name": "Acc",
+		"type": "LIS3DH",
+		"period": 30,
+		"specific": {}
+	}, {
+		"name": "HumiTemp",
+		"type": "SHT35",
+		"period": 30,
+		"specific": {}
+	}],
+	"time": {
+		"SyncGPS": false,
+		"SyncPeriod": 2592000,
+		"manual_rtc": {
+			"hour": 0,
+			"min" : 0,
+			"sec" : 0,
+			"day" : 1,
+			"mon" : 1,
+			"year": 2018
+		}
+	}
+}

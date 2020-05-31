@@ -1,0 +1,216 @@
+*********************************************************************************
+** Version 2.0.0
+*********************************************************************************
++ (ticket #9890) La gestion du watchdog ne se fait plus en deux étapes, mais en 
+  une seule. Il est lancé une fois pour toute et est gelé lors des phases de 
+  sommeil. Ceci limite le risque, qui était faible, que le noeud se retrouve a 
+  executer du code sans que le watchdog soit actif.
+  
++ (tickets #10009 et 10427) Les paramètres de join et l'état courant de la couche
+  LoRaWAN sont à présent conservés entre les phases de sommeil. 
+  Un join n'est plus fait avant chaque envoi, un seul est fait au démarrage 
+  et ses paramètres sont conservés pour tous les envois ultérieurs.
+  
++ (ticket #10489) Respect des normes réglementaires d'occupation des ondes 
+  pour la bande libre des 868 MHz.
+  
++ (ticket #11389) Allumage des alimentations internes en fonction des besoins 
+  des capteurs ouverts. Affichage de message de log uniquement lors des
+  changements d'état des alimentations internes.
+  
++ (ticket #11396) Re-calcule l'heure de réveil du noeud uniquement si une 
+  lecture périodique d'un capteur a eu lieu ou si l'heure du noeud a été mise 
+  à jour. La mise à jour de l'heure de réveil est inutile dans les autres cas.
+  
++ (ticket #11398) S'assure que la date du prochain réveil n'est pas passé 
+  avant de s'endormir. Se plus, si la date de prochain réveil est dans moins de
+  5 secondes, alors le noeud s'endort d'un sommeil léger plutôt que profond.
+  Nous visons à nous assurer que le noeud ne reste pas bloqué en sommeil 
+  profond.
+
++ (ticket #11397) Suppression du paramètre de configuration général 
+  'useWatchdog' qui n'a plus d'utilité depuis longtemps, s'il en a jamais eu.
+  
++ (ticket #9881) Endormissement moins profond du noeud. 
+   Nous conservons ainsi le contexte RAM courant. Cela nous offre également 
+   de nouvelles possibilités de réveil sur activité capteur.
+  
++ (ticket #11399) S'assure de lire la tension batterie avant chaque lot de 
+  mesures. Ce n'était plus le cas depuis les travaux faits dans le cadre du 
+  ticket #9881.
+  
++ (ticket #11394) Initialise la couche SDI-12 uniquement lorsque le besoin 
+  s'en fait sentir, et non plus systématiquement au démarrage.
+  
++ (ticket #11400) Fait en sorte que le noeud puisse se réveiller sur 
+  activité du port série. Ajout d'une période de mesure "sensorFlow" donnée 
+  par le rythme d'envoi des données par le capteur sur une interface de 
+  communication. Et mise en oeuvre de tout ceci pour le capteur de radon, 
+  pour que le noeud ConnecSenS soit un "esclave" du capteur et qu'il 
+  enregistre les mesures du capteur au fur et à mesure de leur production, 
+  au rythme du capteur.
+
+
+*********************************************************************************
+** Version 1.4.0
+*********************************************************************************
+  
++ (ticket #11598) Changement du système de logs. Adoption de celui qui a été 
+  introduit dans la branche 2.x.x. 
+  
++ (ticket #11461) Correction du bogue de seconde lecture d'un capteur lorsque
+   son statut d'alarme change. Le capteur est à présent bien lu une seule fois.
+   
++ (ticket #11634) Ajout du support d'une période d'émission des données 
+  différente lorsqu'un capteur est en alarme.
+  
++ (ticket #11460) Ajout de la détection et de l'envoi de la cause du dernier
+  redémarrage. Toutes les causes ne sont pas détectées, 
+  mais celles d'erreur le sont.
+  
++ (ticket #11666) Corrige le bug du nom du fichier d'index pour le datalog
+  CNSSRF. Ajoute l'option de compilation d'utiliser ou non ce fichier 
+  d'index. Il est fait le choix de l'utiliser, alors qu'il ne l'était pas
+  jusqu'à présent.
+
+
+*********************************************************************************
+** Version 1.3.1
+*********************************************************************************
++ (ticket #11387) Correction du bogue qui faisait que les dates manuelles 
+  indiquées dans le fichier de configuration avec des minutes ou des secondes à
+  59 étaient considérées comme invalides, alors qu'elles ne le sont pas.
+  
++ (ticket #11415) Correction d'un bug général de lecture de la station météo Gill,
+  qui se traduisait en particulier par une lecture de la quantité de pluie tombée
+  constante à 0.
+  
++ (ticket #11416) Permet de configurer la station météo pour qu'elle ne remette pas 
+  à zéro le décompte total de pluie tombée à minuit.
+  Un nouveau paramètre de configuration a été ajouté au pilote de la station météo 
+  en SDI-12 pour indiquer que la station utilise ce mode de fonctionnement.
+  
++ (ticket #11417) Corrige le problème où le fichier d'état par défaut des capteurs
+  était toujours utilisé suite à une mise sous tension.
+  Corrige un bogue dans la sauvegarde du fichier de configuration de référence.
+  Corrige un bogue du driver de la station météo Gill en SDI-12 lorsque le fichier 
+  d'état par défaut était utilisé. La première valeur de pluviométrie produite 
+  était alors erronée. A présent aucune valeur de pluviométrie n'est produite, car
+  il faut deux lectures consécutives pour produire une valeur.
+
++ (ticket #11418) Change la plage de valeur de la direction du vent de [0..359] à
+  [0..360] pour respecter les conventions en la matière. La valeur 0° est retournée 
+  lorsqu'il n'y a pas de vent et 360° lorsque le vent vient du Nord.
+
+
+*********************************************************************************
+** Version 1.3.0
+*********************************************************************************
++ (ticket #11332) Ajoute la possibilté d'envoyer la dernière position GPS 
+  obtenue avec chaque message RF. Cette option est activée par défaut.
+  
++ (ticket #11378) Ajout de l'envoi de nouvelles valeurs de configuration:
+     - La période d'envoi de la configuration.
+     - La période de lecture du GPS.
+     - La période de lecture de chaque capteur.
+    
++ (ticket #11380) Fait en sorte que les mesures capteur issues d'une 
+  interruption produisent des données CSV, comme les mesures périodiques.
+  
++ (ticket #11382) Augmentation du temps maximum d'attente pour la réception 
+  de l'accusé de réception demandé lors de chaque envoi de données de 15 à 
+  25 secondes.
+  Ajout du paramètre de configuration LoRaWAN 'sendTimeoutSec' qui permet de 
+  configurer ce temps d'attente si nécessaire.
+
+
+*********************************************************************************
+** Version 1.2.0
+*********************************************************************************
++ (ticket #11337) Correction du bogue qui empêchait le driver du capteur 
+  InSitu AquaTroll-200 de sortir des données CSV.
+  
++ (ticket #11342) Ajout d'un pilote capteur pour lire l'état d'une entrée 
+  numérique.
+  
++ (ticket #11348) Met l'implémentation du pilote de la station météo Gill MaxiMet 
+  en accord avec la documentation de la configuration de ce capteur. 
+  La documentation indiquait aue lorsque le paramètre de configuration 
+  "measurements" n'était pas indiqué alors toutes les mesures de la station 
+  étaient récupérées. Or, en pratique ce n'était pas le cas, le noeud y voyait une
+  erreur. A présent, le comportement est conforme à la documentation.
+  
++ (ticket #11355) S'assure qu'un nom de noeud est bien indiqué dans le fichier 
+  de configuration.
+  
++ (ticket #11349) Ajoute le paramètre de configuration obligatoire "experimentName" 
+  qui permet de spécifier l'expérience pour laquelle les données sont produites. 
+  Cet ajout ce fait dans le cadre de la facilitation de l'exploitation des 
+  données dans le CEBA.
+  
++ (ticket #11362) Corrige le bogue qui faisait que le position géographique du 
+  noeud était peu, si ce n'est jamais, envoyée.
+  
++ (ticket #11365) Corrige le bogue qui provoquait la production de valeurs 
+  CNSSRFSensorTypeMM3Hash32 à 00000000 dans certaines conditions, 
+  en particulier lorsque des mesures étaient faites lors d'accroches GPS 
+  non bloquantes.
+  
++ (ticket #11366) Ajoute un timeout spécifique aux accroches GPS bloquantes, 
+  qui sont de plus grande importance, et peuvent donc ainsi être configurées 
+  avec des temps plus longs. La valeur par défaut est de 10 minutes.
+  Le temps d'attente par défaut pour les accroches GPS périodiques, 
+  non bloquantes, est augmenté de 2 minutes à 5 minutes.
+
+
+*********************************************************************************
+** Version 1.1.0
+*********************************************************************************
++ (ticket #11305) Génération et envoi d'un hash du type de capteur avec les 
+  données capteurs. L'objectif est de simplifier l'exploitation des données 
+  côté serveur.
+
++ (ticket #11242) Génération et envoi d'un hash du fichier de configuration avec 
+  les données capteurs. Ce hash est également envoyé avec les paramètres de 
+  configuration afin qu'il soit possible de faire le lien entre les données 
+  capteurs et la configuration correspondante. 
+  L'objectif est de simplifier l'exploitation des données côté serveur.
+
++ (ticket #11317) Le noeud produit un fichier CSV avec les mesures des capteurs
+  pour qu'il soit plus simple de l'utiliser en datalogger et pour des tests.
+  Le fichier est créé dans le dossier 'output/csv' du noeud.
+  Son nom inclue l'identifiant réseau (devEUI pour LoRaWAN) ainsi qu'une valeur 
+  hachée de l'entête CSV. Ainsi, si cette dernière change, 
+  car la configuration capteur a été modifiée, alors un nouveau fichier devrait
+  être créé du fait d'une valeur hachée très certainement différente.
+  
++ (ticket #11335) Corrige le problème qui faisait que les valeurs de 
+  configuration à envoyer produites après la détection d'un changement de 
+  configuration étaient horodatées à de mauvaises dates.
+
+
+*********************************************************************************
+** Version 1.0.1
+*********************************************************************************
++ (ticket #11018) Introduction d'un nouveau système d'estimation de la quantité 
+  de données qui peut être envoyée dans la prochaine trame RF. 
+  Ce système est plus précis.
+
++ (ticket #11010) Correction du bug qui faisait que la configuration manuelle 
+  du temps fonctionnait très mal.
+
++ (ticket #10946) Fait en sorte qu'une synchronisation GPS soit faite lorsque le 
+  câble USB du noeud est débranché et que la méthode de synchronisation du 
+  temps configurée est "GPS".
+  
++ (ticket #11126) Ecriture dans de les logs de la tension batterie lue par le 
+  driver de lecture de tension batterie par l'ADC du µC.
+
++ (ticket #10943) Suppression d'un message de test écrit dans les logs qui 
+  n'aurait jamais du être dans une version finale.
+
+
+*********************************************************************************
+** Version 1.0.0
+*********************************************************************************
+Version initiale

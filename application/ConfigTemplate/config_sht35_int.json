@@ -1,0 +1,44 @@
+{
+	"name": "ConnecSenS_1",
+	"experimentName": "Campus_Cézeaux",
+
+	"network": {
+		"type": "Simulation",
+		"devEUI": "0203040506070609",
+		"appEUI": "A78F1729918331B4",
+		"appKey": "D7F66C4B228A7DF609000006A6579FC1",
+		"periodSec": 45
+	},
+	"sensors": [{
+		"name": "TempHumi",
+		"type": "SHT35",
+		"periodSec": 1800,
+		"alarm": {
+			"sendOnAlarmSet":     true,
+			"sendOnAlarmCleared": false,
+			"humidityHighSetPercent":   75,
+			"humidityHighClearPercent": 70,
+			"humidityLowClearPercent":  15,
+			"humidityLowSetPercent":    10,
+			"temperatureHighSetDegC":   30,
+			"temperatureHighClearDegC": 25,
+			"temperatureLowClearDegC":  5,
+			"temperatureLowSetDegC":    0
+		}
+	}],
+	"time": {
+		"syncMethod": "manual",
+		"GPS": {
+			"periodDay": 7,
+			"timeoutSec": 120
+		},
+		"manualUTC": {
+			"hours": 0,
+			"minutes" : 0,
+			"seconds" : 0,
+			"day" : 1,
+			"mon" : 1,
+			"year": 2018
+		}
+	}
+}

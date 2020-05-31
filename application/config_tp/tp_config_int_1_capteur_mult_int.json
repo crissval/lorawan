@@ -1,0 +1,35 @@
+{
+	"name": "ConnecSenS_TP",
+	"verbose": true,
+	"led": true,
+	"debugSerial": true,
+	
+	"network": {
+		"type":   "LoRaWAN",
+		"devEUI": "434E535300E31000",
+		"appEUI": "A78F1729918331B4",
+		"appKey": "D7F66C4B228A7DF609000006A6579FC1",
+		"periodSec": 90
+	},
+	
+	"sensors": [{
+		"name": "Lumi",
+		"type": "OPT3001",
+		"periodSec": 30,
+		"interruptChannels": ["INT1_INT", "USART_INT", "INT2_INT"],
+		"sendOnInterrupt": true
+	}],
+	
+	"time": {
+		"syncGPS": false,
+		"syncPeriodSec": 3600,
+		"manualUTC": {
+			"year": 2018,
+			"month": 6,
+			"day": 19,
+			"hours": 14,
+			"minutes": 0,
+			"seconds": 0
+		}
+	}
+}

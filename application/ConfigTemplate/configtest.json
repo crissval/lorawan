@@ -1,0 +1,56 @@
+{
+	"name": "ConnecSenS_test",
+	"experimentName": "Node_test",
+	"sendConfigPeriodDay": 1,
+	
+	"debug": {
+		"useInternalLEDs": false,
+		"useBuzzer": true
+	},
+	
+	"buzzer": {
+		"activationExtPin": "SPI_CS"
+	},
+	
+	"network": {
+		"type":   "LoRaWAN",
+		"devEUI": "0203040506070809",
+		"appEUI": "A78F1729918331B4",
+		"appKey": "D7F66C4B228A7DF609000006A6579FC1",
+		"periodSec": 60
+	},
+	
+	"sensors": [{
+		"name": "Lumi",
+		"type": "OPT3001",
+		"periodSec": 30
+	}, {
+		"name": "Press",
+		"type": "LPS25",
+		"periodSec": 30
+	}, {
+		"name": "Acc",
+		"type": "LIS3DH",
+		"periodSec": 30
+	}, {
+		"name": "HumiTemp",
+		"type": "SHT35",
+		"periodSec": 30
+	}],
+	
+	"time": {
+		"syncMethod": "GPS",
+		"GPS": {
+			"periodDay": 7,
+			"timeoutSec": 240
+		},
+		"manualUTC": {
+			"hours": 0,
+			"minutes" : 0,
+			"seconds" : 0,
+			"day" : 1,
+			"month" : 1,
+			"year": 2018
+		}
+	}
+}

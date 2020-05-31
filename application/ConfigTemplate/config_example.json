@@ -1,0 +1,78 @@
+{
+	"name": "ConnecSenS_1",
+	"experimentName": "Campus_Cézeaux",
+	"sendConfigPeriodDay": 1,
+	
+	"logs": {
+		"defaultLevel": "INFO",
+		"serial": "EXT_USART"
+	},
+		
+	"interruptions": [{
+		"name": "INT1_INT",
+		"debounceMs": 1000
+	}, {
+		"names": ["USART_INT", "SDI12_INT", "SPI_INT"],
+		"debounceMs": 10
+	}],	
+	
+	"network": {
+		"type":   "LoRaWAN",
+		"devEUI": "0203040506070609",
+		"appEUI": "A78F1729918331B4",
+		"appKey": "D7F66C4B228A7DF609000006A6579FC1",
+		"periodHr": 1
+	},
+	
+	"sensors": [{
+		"name": "Press",
+		"type": "LPS25",
+		"periodMn": 10,
+		"interruptChannel":"LPS25_INT",
+		"sendOnInterrupt": true,
+		"alarm": {
+			"sendOnAlarmSet": true,
+			"lowThresholdHPa":  900,
+			"highThresholdHPa": 1100
+		}
+	}, {
+		"name": "Lumi",
+		"type": "OPT3001",
+		"periodMn": 5,
+		"interruptChannels": ["OPT3001_INT", "INT1_INT"],
+		"sendOnInterrupt": false
+	}, {
+		"name": "Pluvio1",
+		"type": "RainGaugeContact",
+		"periodHr": 1,
+		"tickInterrupt":  "INT2_INT",
+		"tickDebounceMs": 500,
+		"rainMMPerTick":  0.2,
+		"interruptChannel": "OPTO1_INT",
+		"sendOnInterrupt":  true,
+		"alarm": {
+			"sendOnAlarmSet":     true,
+			"sendOnAlarmCleared": true,
+			"periodSec":          60,
+			"thresholdSetMMPerMinute":  10.0,
+			"thresholdClearMMPerMinute": 7.0
+		}
+	}],
+	
+	"time": {
+		"syncMethod": "GPS",
+		"GPS": {
+			"periodDay": 7,
+			"timeoutMn": 5
+		},
+		"manualUTC": {
+			"year": 2018,
+			"month": 6,
+			"day": 3,
+			"hours": 9,
+			"minutes": 50,
+			"seconds": 0
+		}
+	}
+}
+

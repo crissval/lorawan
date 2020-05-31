@@ -1,0 +1,13 @@
+{
+	"name": "ConnecSenS_TP",
+	"verbose": true,
+	"led": true,
+	"debugSerial": true,
+	
+	"time": {
+		"syncGPS": true,
+		"syncGPSTimeoutSec": 240,
+		"syncPeriodSec": 120
+	}
+}
+

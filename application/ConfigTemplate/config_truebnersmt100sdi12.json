@@ -1,0 +1,37 @@
+{
+	"name": "ConnecSenS_1",
+	"experimentName": "Campus_Cézeaux",
+
+	"network": {
+		"type": "Simulation",
+		"devEUI": "0203040506070609",
+		"appEUI": "A78F1729918331B4",
+		"appKey": "D7F66C4B228A7DF609000006A6579FC1",
+		"periodSec": 45
+	},
+	
+	"sensors": [{
+		"name": "HumiSol",
+		"type": "TruebnerSMT100SDI12",
+		"periodHr": 1,
+		"address": "0",
+		"depthCm": 30,
+		"measurements": [ "water", "temperature", "voltage", "permittivity", "raw" ]
+	}],
+	
+	"time": {
+		"syncMethod": "manual",
+		"GPS": {
+			"periodDay": 7,
+			"timeoutSec": 120
+		},
+		"manualUTC": {
+			"hours": 0,
+			"minutes" : 0,
+			"seconds" : 0,
+			"day" : 1,
+			"month" : 1,
+			"year": 2018
+		}
+	}
+}

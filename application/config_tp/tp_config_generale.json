@@ -1,0 +1,9 @@
+{
+	"name": "ConnecSenS_TP",
+	"verbose": true,
+	"led": true,
+	"debugSerial": true
+}
+
+
+

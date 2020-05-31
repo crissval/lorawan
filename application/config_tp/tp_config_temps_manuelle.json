@@ -1,0 +1,21 @@
+{
+	"name": "ConnecSenS_TP",
+	"verbose": true,
+	"led": true,
+	"debugSerial": true,
+	
+	"time": {
+		"syncGPS": false,
+		"syncPeriodSec": 3600,
+		"manualUTC": {
+			"year": 2018,
+			"month": 6,
+			"day": 19,
+			"hours": 14,
+			"minutes": 0,
+			"seconds": 0
+		}
+	}
+}
+
+
